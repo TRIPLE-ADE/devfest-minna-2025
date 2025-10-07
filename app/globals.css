@@ -1,26 +1,126 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
 
 :root {
-  --background: #ffffff;
+  --background: #fff6e0;
   --foreground: #171717;
+
+  --accent-yellow: #f9ab00;
+  --accent-orange: #F6B51E;
+  --accent-green: #34a853;
+  --accent-blue: #4285f4;
+  --accent-red: #ea4335;
+  --accent-pink: #fcd6d9;
+  --halftone-yellow: #ffd427;
+  --halftone-blue: #57caff;
+  --halftone-red: #ff7daf;
+  --halftone-green: #5cdb6d;
+  --pastel-yellow: #ffe7a5;
+  --pastel-blue: #c3ecf6; 
+  --pastel-red: #f8d8d8;
+  --pastel-green: #ccf6c5;
+  --greyscale-light: #f0f0f0;
+  --greyscale-dark: #1e1e1e;
+;
+;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-accent-yellow: var(--accent-yellow);
+  --color-accent-orange: var(--accent-orange);
+  --color-halftone-yellow: var(--halftone-yellow);
+  --color-halftone-blue: var(--halftone-blue);
+  --color-halftone-red: var(--halftone-red);
+  --color-halftone-green: var(--halftone-green);
+  --color-accent-green: var(--accent-green);
+  --color-accent-blue: var(--accent-blue);
+  --color-accent-red: var(--accent-red);
+  --color-accent-pink: var(--accent-pink);
+  --color-pastel-yellow: var(--pastel-yellow);
+  --color-pastel-blue: var(--pastel-blue);
+  --color-pastel-red: var(--pastel-red);
+  --color-pastel-green: var(--pastel-green);
+  --color-greyscale-light: var(--greyscale-light);
+  --color-greyscale-dark: var(--greyscale-dark);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
+  --font-quicksand: var(--font-quicksand);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --animate-cell-ripple: cell-ripple var(--duration, 200ms) ease-out none 1
+  var(--delay, 0ms);
+
+  @keyframes cell-ripple {
+    0% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 0.8;
+    }
+    100% {
+      opacity: 0.4;
+    }
   }
 }
+
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+     --background: #0a0a0a;
+    --foreground: #ededed;
+
+    --accent-yellow: #f1d649;
+    --accent-green: #00c17c;
+    --accent-blue: #3b82f6;
+    --accent-red: #ef4444;
+    --accent-pink: #9f8183;
+  }
+} */
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+/* Adding speaker slider animations that move in opposite directions */
+@layer utilities {
+  /* Keyframe for sliding up animation */
+  @keyframes slide-up {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+
+  /* Keyframe for sliding down animation */
+  @keyframes slide-down {
+    0% {
+      transform: translateY(-50%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  /* Animation class for upward sliding */
+  .animate-slide-up {
+    animation: slide-up 30s linear infinite;
+  }
+
+  /* Animation class for downward sliding */
+  .animate-slide-down {
+    animation: slide-down 30s linear infinite;
+  }
+
+  /* Pause animation on hover */
+  .hover\:pause-animation:hover {
+    animation-play-state: paused;
+  }
+}
+
