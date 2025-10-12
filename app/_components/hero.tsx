@@ -66,7 +66,7 @@ export default function Hero() {
   ];
 
   return (
-    <section className='flex relative flex-col items-center justify-center min-h-[80vh] mb-20 px-4 md:px-12 font-sans text-center'>
+    <section className='flex relative flex-col items-center justify-center min-h-[80vh] pb-10 px-4 md:px-12 font-sans text-center'>
       <div
         className='absolute inset-0 opacity-20'
         style={{
@@ -74,7 +74,7 @@ export default function Hero() {
                 linear-gradient(to right, #1e1e1e 1px, transparent 1px),
                 linear-gradient(to bottom, #1e1e1e 1px, transparent 1px)
               `,
-          backgroundSize: "80px 80px",
+          backgroundSize: "70px 70px",
         }}
       />
 
@@ -164,7 +164,7 @@ export default function Hero() {
 
           {eventState.status === "before" && (
             <Link
-              href=''
+              href='https://gdg.community.dev/events/details/google-gdg-minna-presents-devfest-minna-2025/cohost-gdg-minna'
               target='_blank'
               rel='noopener noreferrer'
               className='bg-background hover:scale-105 hover:bg-accent-orange border border-black text-[#1e1e1e] font-bold px-8 py-4 rounded-full shadow-sm hover:shadow-md transition-all duration-200 text-lg md:text-2xl flex-1 text-center font-sans'

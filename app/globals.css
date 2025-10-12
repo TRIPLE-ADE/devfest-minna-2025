@@ -122,5 +122,134 @@ body {
   .hover\:pause-animation:hover {
     animation-play-state: paused;
   }
+
+  /* Pulse animation for spotlight carousel */
+  @keyframes pulse-slow {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+  }
+
+  /* Fade in animation for carousel cards */
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out forwards;
+  }
+
+  /* Enhanced carousel transition animations */
+  @keyframes slide-in-right {
+    0% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-in-left {
+    0% {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-out-left {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes slide-out-right {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes content-fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes content-fade-out {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.95);
+    }
+  }
+
+  /* Smooth stagger animation for text elements */
+  @keyframes stagger-fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-stagger-1 {
+    animation: stagger-fade-in 0.5s ease-out 0.1s forwards;
+    opacity: 0;
+  }
+
+  .animate-stagger-2 {
+    animation: stagger-fade-in 0.5s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+
+  .animate-stagger-3 {
+    animation: stagger-fade-in 0.5s ease-out 0.3s forwards;
+    opacity: 0;
+  }
+
+  .animate-stagger-4 {
+    animation: stagger-fade-in 0.5s ease-out 0.4s forwards;
+    opacity: 0;
+  }
 }
 

@@ -53,7 +53,9 @@ export default function Slider({
     <div className='py-4 mb-5 slider-container bg-[#ffe7a5] overflow-hidden'>
       <div className='relative'>
         <div
-          className={`flex slider-track ${direction === "left" ? "slide-left" : "slide-right"}`}
+          className={`flex slider-track ${
+            direction === "left" ? "slide-left" : "slide-right"
+          }`}
           style={
             {
               gap: `${gap}px`,
