@@ -79,7 +79,7 @@ export default function Faqs() {
 
   return (
     <section className='py-16 md:py-24 bg-background relative overflow-hidden'>
-      <div className='container mx-auto px-4 relative z-10'>
+      <div className='container mx-auto px-4 lg:px-8 xl:px-12 relative z-10'>
         <div className='max-w-4xl mx-auto'>
           {/* Section Header */}
           <div className='text-center'>

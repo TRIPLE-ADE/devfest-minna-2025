@@ -38,7 +38,7 @@ export default function Host() {
 
   return (
     <section className='py-16 md:py-24 relative overflow-hidden bg-white '>
-      <div className='container mx-auto px-4 relative z-10'>
+      <div className='container mx-auto px-4 lg:px-8 xl:px-12 relative z-10'>
         <div className='max-w-7xl mx-auto'>
           <SectionHeader
             title='Hosts'

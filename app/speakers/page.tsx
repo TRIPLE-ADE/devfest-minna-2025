@@ -168,7 +168,7 @@ const SpeakersPage = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section with Sliding Cards */}
-      <section className='container mx-auto px-4 overflow-hidden '>
+      <section className='container mx-auto px-4 lg:px-8 xl:px-12 overflow-hidden '>
         <div className='max-w-7xl mx-auto'>
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
             {/* Left Side - Title */}
@@ -256,7 +256,7 @@ const SpeakersPage = () => {
 
       {/* Speakers Grid */}
       <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 lg:px-8 xl:px-12">
           <SectionHeader 
             title="Our Speakers" 
             subtitle="Meet the experts who will share their knowledge and experience at DevFest Minna 2025" 
@@ -384,7 +384,7 @@ const SpeakersPage = () => {
 
       {/* Call to Action */}
       <section className="bg-white py-16">
-        <div className="container mx-auto px-4 text-center">
+        <div className="container mx-auto px-4 lg:px-8 xl:px-12 text-center">
           <h2 className="text-4xl md:text-5xl font-black text-greyscale-dark mb-6">
             Ready to Learn from the Best?
           </h2>
