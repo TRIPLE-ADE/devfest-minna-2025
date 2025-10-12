@@ -7,9 +7,9 @@ import SectionHeader from "@/shared/section-header";
 const Venue = () => {
   return (
     <section className='bg-[#f8d8d8] py-16 md:py-24'>
-      <div className='container mx-auto px-4'>
+      <div className='container mx-auto px-4 lg:px-8 xl:px-12'>
         <SectionHeader title="Venue" subtitle="Discover the venue for DevFest Minna 2025." />
-        <div className='max-w-5xl mx-auto'>
+        <div className='max-w-7xl mx-auto'>
           <div className='bg-white rounded-3xl overflow-hidden shadow-xl'>
             <div className='grid grid-cols-1 md:grid-cols-2'>
               <div>

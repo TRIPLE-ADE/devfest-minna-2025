@@ -138,13 +138,13 @@ const Speakers = () => {
 
   return (
     <section>
-      <div className='container py-20 md:py-24 mx-auto px-4 relative'>
+      <div className='container mx-auto px-4 lg:px-8 xl:px-12 py-20 md:py-24 relative'>
         <SectionHeader
           title='Speakers'
           subtitle='Get a glimpse of our amazing speakers who will share their expertise at DevFest Minna 2025'
         />
         <div
-          className='max-w-6xl mx-auto relative'
+          className='max-w-7xl mx-auto relative'
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
         >
