@@ -55,6 +55,11 @@ export default function Header() {
               </Link>
             </li>
             <li>
+              <Link href='/gallery' className='text-black'>
+                Gallery
+              </Link>
+            </li>
+            <li>
               <Link href='/speakers' className='text-black'>
                 Speakers
               </Link>
@@ -125,6 +130,15 @@ export default function Header() {
                 onClick={() => setNavOpen(false)}
               >
                 Get DP
+              </Link>
+            </div>
+            <div className='mb-4'>
+              <Link
+                href='/gallery'
+                className='block py-2 font-medium text-lg text-black'
+                onClick={() => setNavOpen(false)}
+              >
+                Gallery
               </Link>
             </div>
             <div className='mb-4'>

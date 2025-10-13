@@ -1,6 +1,6 @@
 'use client'
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Upload, Edit2, Download } from "lucide-react";
+import { Upload, Edit2, Download, Share2, Twitter, Facebook, Linkedin, Copy, CheckCircle, ExternalLink } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
@@ -8,6 +8,7 @@ import ReactCrop, { Crop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import Image from "next/image";
 import DPPreview from "./dp-preview";
+import { uploadDPImage, saveDPRecord, type DPRecord } from "@/lib/appwrite";
 
 const DPGenerator = () => {
   const [name, setName] = useState("");
@@ -17,6 +18,14 @@ const DPGenerator = () => {
   const [showCropInterface, setShowCropInterface] = useState(false);
   const [cropPreview, setCropPreview] = useState<string>("");
   const [isDragOver, setIsDragOver] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [generatedImageBlob, setGeneratedImageBlob] = useState<Blob | null>(null);
+  const [copySuccess, setCopySuccess] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadedDPUrl, setUploadedDPUrl] = useState<string>("");
+  const [dpRecord, setDpRecord] = useState<DPRecord | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [dpGenerated, setDpGenerated] = useState(false);
   const [crop, setCrop] = useState<Crop>({
     unit: '%',
     width: 80,
@@ -212,6 +221,195 @@ const DPGenerator = () => {
     }
   };
 
+  // Generate image blob for sharing
+  const generateImageBlob = async (): Promise<Blob | null> => {
+    const previewElement = document.querySelector('.dp-preview') as HTMLElement;
+    
+    if (!previewElement) {
+      console.error('Preview element not found');
+      return null;
+    }
+
+    try {
+      const { default: html2canvas } = await import('html2canvas-pro');
+      
+      // Wait for images to load
+      const images = previewElement.querySelectorAll('img');
+      await Promise.all(Array.from(images).map((img, index) => {
+        return new Promise((resolve) => {
+          if (img.complete) {
+            resolve(img);
+          } else {
+            img.onload = () => resolve(img);
+            img.onerror = (e) => {
+              console.error(`Image ${index + 1} failed to load:`, e);
+              resolve(img);
+            };
+          }
+        });
+      }));
+      
+      const rect = previewElement.getBoundingClientRect();
+      
+      const canvas = await html2canvas(previewElement, {
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        scale: 2,
+        width: rect.width,
+        height: rect.height,
+        scrollX: 0,
+        scrollY: 0,
+        logging: false,
+        imageTimeout: 30000,
+        removeContainer: false,
+        foreignObjectRendering: false,
+        ignoreElements: () => false
+      });
+
+      return new Promise((resolve) => {
+        canvas.toBlob((blob) => {
+          resolve(blob);
+        }, 'image/png', 0.95);
+      });
+    } catch (error) {
+      console.error('Error generating image blob:', error);
+      return null;
+    }
+  };
+
+  // Generate DP and save to Appwrite
+  const handleGenerateDP = async () => {
+    setIsGenerating(true);
+    try {
+      const blob = await generateImageBlob();
+      if (!blob) {
+        alert('Failed to generate DP. Please try again.');
+        return;
+      }
+
+      setGeneratedImageBlob(blob);
+
+      // Try to upload to Appwrite (optional - don't block if it fails)
+      try {
+        const fileName = `devfest-dp-${name || 'user'}-${Date.now()}.png`;
+        const imageUrl = await uploadDPImage(blob, fileName);
+
+        // Save record to database
+        const dpData: Omit<DPRecord, 'id'> = {
+          name: name || 'Anonymous',
+          imageId: fileName,
+          imageUrl: imageUrl,
+        };
+
+        const savedRecord = await saveDPRecord(dpData);
+        setDpRecord(savedRecord);
+        setUploadedDPUrl(imageUrl);
+        console.log('DP successfully saved to cloud!');
+      } catch (cloudError) {
+        console.warn('Failed to save DP to cloud, but local download is still available:', cloudError);
+        // Still allow download even if cloud save fails
+        setDpRecord(null);
+        setUploadedDPUrl("");
+      }
+      
+      // Only set dpGenerated to true after cloud save attempt is complete
+      setDpGenerated(true);
+    } catch (error) {
+      console.error('Error generating DP:', error);
+      alert('Failed to generate DP. Please try again.');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  // Share functionality (only works if DP was saved to cloud)
+  const handleShare = async () => {
+    if (!dpGenerated) {
+      alert('Please generate your DP first!');
+      return;
+    }
+    if (!dpRecord) {
+      alert('Cloud sharing is unavailable. Please download your DP and share it manually.');
+      return;
+    }
+    setShowShareModal(true);
+  };
+
+  const shareToTwitter = () => {
+    if (!dpRecord) {
+      console.error('No DP record available for sharing');
+      return;
+    }
+    const shareUrl = `${window.location.origin}/dp/${dpRecord.id}`;
+    const text = `Just created my DevFest Minna 2025 profile picture! 🚀 Join me at this amazing tech event on November 8th at Rasheedat Restaurant, Minna. #DevFestMinna2025 #BuildWithAI #GDGMinna #TechEvent`;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`;
+    window.open(url, '_blank');
+  };
+
+  const shareToFacebook = () => {
+    if (!dpRecord) {
+      console.error('No DP record available for sharing');
+      return;
+    }
+    const shareUrl = `${window.location.origin}/dp/${dpRecord.id}`;
+    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+    window.open(url, '_blank');
+  };
+
+  const shareToLinkedIn = () => {
+    if (!dpRecord) {
+      console.error('No DP record available for sharing');
+      return;
+    }
+    const shareUrl = `${window.location.origin}/dp/${dpRecord.id}`;
+    const text = `Just created my DevFest Minna 2025 profile picture! Excited to attend this developer festival on November 8th at Rasheedat Restaurant, Minna. Join the tech community for expert talks, workshops, and networking opportunities. Free registration open to all skill levels!`;
+    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent('DevFest Minna 2025 - My Profile Picture')}&summary=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  };
+
+  const copyLink = async () => {
+    if (!dpRecord) {
+      console.error('No DP record available for sharing');
+      return;
+    }
+    try {
+      const shareUrl = `${window.location.origin}/dp/${dpRecord.id}`;
+      const eventInfo = `Check out my DevFest Minna 2025 profile picture! 
+
+DevFest Minna 2025 - November 8th at Rasheedat Restaurant, Minna
+Free tech conference with expert speakers and workshops
+
+View my DP: ${shareUrl}
+Create yours: ${window.location.origin}/get-dp`;
+      
+      await navigator.clipboard.writeText(eventInfo);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  };
+
+  const shareViaWebAPI = async () => {
+    if (navigator.share && generatedImageBlob) {
+      try {
+        const file = new File([generatedImageBlob], `DevFest-Minna-2025-DP-${name || 'User'}.png`, {
+          type: 'image/png',
+        });
+
+        await navigator.share({
+          title: 'My DevFest Minna 2025 Profile Picture',
+          text: `Check out my DevFest Minna 2025 profile picture! Join me at this amazing tech event on November 8th at Rasheedat Restaurant, Minna. #DevFestMinna2025 #BuildWithAI`,
+          files: [file],
+        });
+        setShowShareModal(false);
+      } catch (error) {
+        console.error('Error sharing via Web Share API:', error);
+      }
+    }
+  };
+
   // Fallback download method using canvas drawing
   const fallbackDownload = async () => { 
     const canvas = document.createElement('canvas');
@@ -382,7 +580,8 @@ const DPGenerator = () => {
     }
   };
 
-  const isReadyToDownload = name.trim() !== "" && photo !== "";
+  const isReadyToGenerate = name.trim() !== "" && photo !== "";
+  const isReadyForActions = dpGenerated && dpRecord;
 
   return (
     <div className="min-h-screen bg-background">
@@ -537,17 +736,97 @@ const DPGenerator = () => {
               )}
             </div>
 
-            {/* Download Button */}
-            {isReadyToDownload && (
-              <Button 
-                onClick={downloadDP}
-                variant="outline" 
-                className="flex items-center w-full gap-2 py-6 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
-              >
-                <Download className="w-5 h-5" />
-                Download DP
-              </Button>
-            )}
+            {/* Action Buttons */}
+            <div className="space-y-3">
+              {/* Step 1: Generate DP Button */}
+              {isReadyToGenerate && !dpGenerated && (
+                <Button 
+                  onClick={handleGenerateDP}
+                  disabled={isGenerating}
+                  className="flex items-center w-full gap-2 py-6 bg-accent-orange hover:bg-accent-orange/90 text-greyscale-dark font-bold disabled:opacity-50"
+                >
+                  <Share2 className="w-5 h-5" />
+                  {isGenerating ? 'Generating DP...' : 'Generate Your DP'}
+                </Button>
+              )}
+
+              {/* Step 2: Success Message */}
+              {dpGenerated && (
+                <div className={`${dpRecord ? 'bg-green-50 border-green-200' : 'bg-blue-50 border-blue-200'} border rounded-lg p-4 mb-3`}>
+                  <div className={`flex items-center gap-2 ${dpRecord ? 'text-green-800' : 'text-blue-800'}`}>
+                    <CheckCircle className="w-5 h-5" />
+                    <span className="font-semibold">DP Generated Successfully!</span>
+                  </div>
+                  <p className={`${dpRecord ? 'text-green-700' : 'text-blue-700'} text-sm mt-1`}>
+                    {dpRecord
+                      ? 'Your DevFest profile picture is ready to download and share.' 
+                      : 'Your DevFest profile picture is ready to download. (Cloud save unavailable)'
+                    }
+                  </p>
+                  {dpRecord && (
+                    <a
+                      href={`${window.location.origin}/dp/${dpRecord.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-green-600 hover:text-green-800 text-sm mt-2"
+                    >
+                      View your DP page <ExternalLink size={14} />
+                    </a>
+                  )}
+                </div>
+              )}
+
+              {/* Step 3: Download and Share Buttons */}
+              {dpGenerated && (
+                <>
+                  {/* Download is always available once DP is generated */}
+                  <Button 
+                    onClick={downloadDP}
+                    variant="outline" 
+                    className="flex items-center w-full gap-2 py-6 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
+                  >
+                    <Download className="w-5 h-5" />
+                    Download DP
+                  </Button>
+                  
+                  {/* Share is only available if DP was saved to cloud */}
+                  {dpRecord ? (
+                    <Button 
+                      onClick={handleShare}
+                      className="flex items-center w-full gap-2 py-6"
+                    >
+                      <Share2 className="w-5 h-5" />
+                      Share Your DP
+                    </Button>
+                  ) : (
+                    <Button 
+                      disabled
+                      className="flex items-center w-full gap-2 py-6 cursor-not-allowed"
+                      title="Cloud sharing unavailable - download and share manually"
+                    >
+                      <Share2 className="w-5 h-5" />
+                      Cloud Sharing Unavailable
+                    </Button>
+                  )}
+                </>
+              )}
+
+              {/* Step 4: Generate New DP Button */}
+              {dpGenerated && (
+                <Button 
+                  onClick={() => {
+                    setDpGenerated(false);
+                    setDpRecord(null);
+                    setUploadedDPUrl("");
+                    setGeneratedImageBlob(null);
+                  }}
+                  variant="outline"
+                  className="flex items-center w-full gap-2 py-6 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
+                >
+                  Generate New DP
+                </Button>
+              )}
+            </div>
           </div>
 
           {/* Preview Section */}
@@ -555,6 +834,114 @@ const DPGenerator = () => {
             <DPPreview name={name} photo={photo} color={selectedColor} />
           </div>
         </div>
+
+        {/* Share Modal */}
+        {showShareModal && dpRecord && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+            <div className="bg-white rounded-lg p-6 m-4 max-w-md w-full max-h-[90vh] overflow-y-auto">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">Share Your DP</h3>
+                <button
+                  onClick={() => setShowShareModal(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  ✕
+                </button>
+              </div>
+              
+              {/* Show uploaded DP preview */}
+              <div className="mb-4 text-center">
+                <div className="relative w-32 h-32 mx-auto mb-2">
+                  <Image
+                    src={uploadedDPUrl}
+                    alt="Your DevFest DP"
+                    fill
+                    className="object-cover rounded-lg border-2 border-blue-500"
+                  />
+                </div>
+                <p className="text-sm text-gray-600 mb-2">Your DP is live and ready to share!</p>
+                <a
+                  href={`${window.location.origin}/dp/${dpRecord.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm"
+                >
+                  View your DP page <ExternalLink size={14} />
+                </a>
+              </div>
+              
+              <p className="text-gray-600 mb-6 text-sm">
+                Share your DevFest Minna 2025 profile picture and let everyone know you'll be attending!
+              </p>
+              
+              {/* Web Share API Button (if supported) */}
+              {typeof navigator !== 'undefined' && 'share' in navigator && generatedImageBlob && (
+                <Button 
+                  onClick={shareViaWebAPI}
+                  className="w-full mb-4 bg-gray-900 hover:bg-gray-800 text-white"
+                >
+                  <Share2 className="w-4 h-4 mr-2" />
+                  Share Image
+                </Button>
+              )}
+              
+              {/* Social Media Buttons */}
+              <div className="grid grid-cols-3 gap-3 mb-4">
+                <Button
+                  onClick={shareToTwitter}
+                  variant="outline"
+                  className="flex flex-col items-center p-4 h-auto border-blue-400 text-blue-600 hover:bg-blue-50"
+                >
+                  <Twitter className="w-6 h-6 mb-1" />
+                  <span className="text-xs">Twitter</span>
+                </Button>
+                
+                <Button
+                  onClick={shareToFacebook}
+                  variant="outline"
+                  className="flex flex-col items-center p-4 h-auto border-blue-600 text-blue-800 hover:bg-blue-50"
+                >
+                  <Facebook className="w-6 h-6 mb-1" />
+                  <span className="text-xs">Facebook</span>
+                </Button>
+                
+                <Button
+                  onClick={shareToLinkedIn}
+                  variant="outline"
+                  className="flex flex-col items-center p-4 h-auto border-blue-700 text-blue-900 hover:bg-blue-50"
+                >
+                  <Linkedin className="w-6 h-6 mb-1" />
+                  <span className="text-xs">LinkedIn</span>
+                </Button>
+              </div>
+              
+              {/* Copy Link Button */}
+              <Button
+                onClick={copyLink}
+                variant="outline"
+                className={`w-full ${copySuccess ? 'border-green-500 text-green-600' : 'border-gray-300 text-gray-700'} hover:bg-gray-50`}
+              >
+                {copySuccess ? (
+                  <>
+                    <CheckCircle className="w-4 h-4 mr-2" />
+                    Link Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4 mr-2" />
+                    Copy Share Link
+                  </>
+                )}
+              </Button>
+              
+              <div className="mt-4 text-center">
+                <p className="text-xs text-gray-500">
+                  Your DP is saved and can be shared with this unique link!
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
