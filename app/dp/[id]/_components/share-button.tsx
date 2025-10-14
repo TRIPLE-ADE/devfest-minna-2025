@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { Share2 } from 'lucide-react';
-import { Button } from '@/shared/ui/button';
+import { Share2 } from "lucide-react";
+import { Button } from "@/shared/ui/button";
 
 interface ShareButtonProps {
   name: string;
@@ -18,15 +18,15 @@ export default function ShareButton({ name, shareUrl }: ShareButtonProps) {
           url: shareUrl,
         });
       } catch (error) {
-        console.error('Error sharing:', error);
+        console.error("Error sharing:", error);
       }
     } else {
       // Fallback to copying URL
       try {
         await navigator.clipboard.writeText(shareUrl);
-        alert('Link copied to clipboard!');
+        alert("Link copied to clipboard!");
       } catch (error) {
-        console.error('Error copying to clipboard:', error);
+        console.error("Error copying to clipboard:", error);
       }
     }
   };

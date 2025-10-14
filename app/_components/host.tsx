@@ -37,42 +37,42 @@ export default function Host() {
   ];
 
   return (
-    <section className='py-16 md:py-24 relative overflow-hidden bg-white '>
-      <div className='container mx-auto px-4 lg:px-8 xl:px-12 relative z-10'>
-        <div className='max-w-7xl mx-auto'>
+    <section className="py-16 md:py-24 relative overflow-hidden bg-white ">
+      <div className="container mx-auto px-4 lg:px-8 xl:px-12 relative z-10">
+        <div className="max-w-7xl mx-auto">
           <SectionHeader
-            title='Hosts'
+            title="Hosts"
             subtitle={`DevFest Minna 2025 is proudly hosted by a coalition of passionate tech communities working together to foster innovation and growth in Minna's tech ecosystem.`}
           />
           {/* Host Organizations */}
-          <div className='grid rounded-3xl grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-16'>
+          <div className="grid rounded-3xl grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-16">
             {hosts.map((host, index) => (
               <div
                 key={host.id}
-                className='group rounded-3xl transition-all duration-300 overflow-hidden animate-fade-in-up'
+                className="group rounded-3xl transition-all duration-300 overflow-hidden animate-fade-in-up"
                 style={{
                   animationDelay: `${index * 150}ms`,
                   animationFillMode: "both",
                 }}
               >
                 {/* Host Card Content */}
-                <div className='p-5'>
+                <div className="p-5">
                   {/* Logo */}
-                  <div className='flex justify-center mb-6'>
-                    <div className='relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden  bg-gray-200 group-hover:scale-110 transition-transform duration-300'>
+                  <div className="flex justify-center mb-6">
+                    <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden  bg-gray-200 group-hover:scale-110 transition-transform duration-300">
                       <Image
                         src={host.image}
                         alt={`${host.name} Logo`}
                         fill
-                        className='object-contain'
-                        sizes='(max-width: 768px) 128px, 160px'
+                        className="object-contain"
+                        sizes="(max-width: 768px) 128px, 160px"
                       />
                     </div>
                   </div>
 
                   {/* Organization Info */}
-                  <div className='text-center'>
-                    <h3 className='text-2xl font-black text-greyscale-dark'>
+                  <div className="text-center">
+                    <h3 className="text-2xl font-black text-greyscale-dark">
                       {host.name}
                     </h3>
                   </div>

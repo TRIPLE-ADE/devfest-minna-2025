@@ -14,15 +14,20 @@ export default function Home() {
       image: "/assets/devfest-logo-5.webp",
       name: "DevFest Logo 5",
       width: 200,
-      height: 160
-    }
+      height: 160,
+    },
   ];
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <main className="flex-1">
         <Hero />
-        <Slider logos={logos} duplicate duplicateCount={5} animationDuration={15} />
+        <Slider
+          logos={logos}
+          duplicate
+          duplicateCount={5}
+          animationDuration={15}
+        />
         <Slider logos={logos} animationDuration={15} direction="right" />
         <Speakers />
         <Venue />
@@ -30,7 +35,6 @@ export default function Home() {
         <Community />
         <Faqs />
       </main>
-      
     </div>
   );
 }
