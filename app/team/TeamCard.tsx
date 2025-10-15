@@ -33,7 +33,7 @@ const TeamCard = ({ member, onOpenBio, size = "large" }: TeamCardProps) => {
         <img
           src={member.imgUrl}
           alt=""
-          className={`${imgSize} rounded-full object-cover mb-4 ring-4 ring-primary/10`}
+          className={`${imgSize} rounded-full object-cover mb-4 ring-4 ring-black`}
           loading="lazy"
         />
         <h3 className="text-lg font-bold text-foreground mb-1">

@@ -39,7 +39,11 @@
 
 /* So images keep their appearance but the ring may need contrast */
 .cardHover:hover img {
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  /* Preserve Tailwind ring while adding a soft shadow */
+  box-shadow:
+    var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000),
+    0 6px 24px rgba(0, 0, 0, 0.08);
 }
 
 /* Modal customizations */

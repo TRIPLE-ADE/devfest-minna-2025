@@ -153,4 +153,52 @@ export const volunteers: TeamMember[] = [
       twitter: "https://twitter.com",
     },
   },
+  {
+    id: "vol-6",
+    name: "Joel Francis",
+    role: "Graphic Design Lead",
+    organization: "GDG Minna",
+    bio: "Community builder and social media coordinator. Manages event communications and community engagement.",
+    imgUrl:
+      "https://res.cloudinary.com/dzja5jbgq/image/upload/v1760543950/WhatsApp_Image_2025-10-14_at_14.47.40_2bcf05f5_kjetxa.jpg",
+    socials: {
+      twitter: "https://twitter.com",
+    },
+  },
+  {
+    id: "vol-7",
+    name: "Fadil Bashir",
+    role: "Design Team",
+    organization: "GDG Minna",
+    bio: "Community builder and social media coordinator. Manages event communications and community engagement.",
+    imgUrl:
+      "https://res.cloudinary.com/dzja5jbgq/image/upload/v1760544076/Fadil_zotuad.jpg",
+    socials: {
+      twitter: "https://twitter.com",
+    },
+  },
+  {
+    id: "vol-8",
+    name: "Fawziyyah Muhammad",
+    role: "Protocol team",
+    organization: "GDG Minna",
+    bio: "Community builder and social media coordinator. Manages event communications and community engagement.",
+    imgUrl:
+      "https://res.cloudinary.com/dzja5jbgq/image/upload/v1760544196/WhatsApp_Image_2025-10-14_at_15.09.12_ab4c310b_xfb4kz.jpg",
+    socials: {
+      twitter: "https://twitter.com",
+    },
+  },
+  {
+    id: "vol-9",
+    name: "Abdulsalam Madeenah",
+    role: "Design team",
+    organization: "GDG Minna",
+    bio: "Community builder and social media coordinator. Manages event communications and community engagement.",
+    imgUrl:
+      "https://res.cloudinary.com/dzja5jbgq/image/upload/v1760544214/WhatsApp_Image_2025-10-14_at_15.52.32_af022717_zdqrzk.jpg",
+    socials: {
+      twitter: "https://twitter.com",
+    },
+  },
 ];
