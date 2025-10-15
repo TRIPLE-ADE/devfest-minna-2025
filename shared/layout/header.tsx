@@ -69,6 +69,11 @@ export default function Header() {
                 Team
               </Link>
             </li>
+            <li>
+              <Link href='/schedule' className='text-black'>
+                Schedule
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
@@ -157,6 +162,15 @@ export default function Header() {
                 onClick={() => setNavOpen(false)}
               >
                 Team
+              </Link>
+            </div>
+            <div className='mb-4'>
+              <Link
+                href='/schedule'
+                className='block py-2 font-medium text-lg text-black'
+                onClick={() => setNavOpen(false)}
+              >
+                Schedule
               </Link>
             </div>
           </div>
