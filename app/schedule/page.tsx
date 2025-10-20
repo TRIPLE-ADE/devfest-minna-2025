@@ -25,7 +25,7 @@ const schedulePage = () => {
               <h4 className='text-md font-normal'>8:30 AM - 9:30 AM</h4>
               <h2 className='text-2xl font-bold my-5'>Arrival and Check-in</h2>
             </div>
-            <div className='h-47 w-full my-2 px-6 bg-white'>
+            <div className='h-48 w-full my-2 px-6 bg-white'>
               <Button className='my-5 w-25 h-10 bg-blue-600'>
                 <span className='text-sm font-sans text-white'>Intro</span>
               </Button>
@@ -49,7 +49,7 @@ const schedulePage = () => {
                 Temidayo Akintoye
               </h4>
             </div>
-            <div className='h-55 sm:h-50 w-full my-2 px-6 bg-white'>
+            <div className='h-65 sm:h-50 w-full my-2 px-6 bg-white'>
               <Button className='my-5 w-25 h-10 bg-accent-orange'>
                 <span className='text-sm font-sans text-white'>Speaker</span>
               </Button>
@@ -62,7 +62,7 @@ const schedulePage = () => {
                 Gabriella Amaefule
               </h4>
             </div>
-            <div className='h-55 sm:h-50 w-full my-2 px-6 bg-white'>
+            <div className='h-57 sm:h-50 w-full my-2 px-6 bg-white'>
               <Button className='my-5 w-25 h-10 bg-red-600'>
                 <span className='text-sm font-sans text-white'>Speaker</span>
               </Button>
@@ -74,7 +74,7 @@ const schedulePage = () => {
                 Daniel Egbe
               </h4>
             </div>
-            <div className='h-55 sm:h-50 w-full my-2 px-6 bg-white'>
+            <div className='h-57 sm:h-50 w-full my-2 px-6 bg-white'>
               <Button className='my-5 w-25 h-10 bg-blue-600'>
                 <span className='text-sm font-sans text-white'>Speaker</span>
               </Button>
@@ -86,7 +86,7 @@ const schedulePage = () => {
                 Fauziya Mohammed
               </h4>
             </div>
-            <div className='h-55 sm:h-50 w-full my-2 px-6 bg-white'>
+            <div className='h-65 sm:h-50 w-full my-2 px-6 bg-white'>
               <Button className='my-5 w-25 h-10 bg-green-600'>
                 <span className='text-sm font-sans text-white'>Speaker</span>
               </Button>
@@ -99,7 +99,7 @@ const schedulePage = () => {
                 Shehu Ibrahim Muhammad
               </h4>
             </div>
-            <div className='h-55 sm:h-50 w-full my-2 px-6 bg-white'>
+            <div className='h-65 sm:h-50 w-full my-2 px-6 bg-white'>
               <Button className='my-5 w-25 h-10 bg-accent-orange'>
                 <span className='text-sm font-sans text-white'>Speaker</span>
               </Button>
@@ -112,7 +112,7 @@ const schedulePage = () => {
                 Samuel Adeniyi
               </h4>
             </div>
-            <div className='h-55 sm:h-50 w-full my-2 px-6 bg-white'>
+            <div className='h-65 sm:h-50 w-full my-2 px-6 bg-white'>
               <Button className='my-5 w-25 h-10 bg-red-600'>
                 <span className='text-sm font-sans text-white'>Speaker</span>
               </Button>
@@ -125,7 +125,7 @@ const schedulePage = () => {
                 Muiz Aminu
               </h4>
             </div>
-            <div className='h-47 w-full my-2 px-6 bg-white'>
+            <div className='h-50 w-full my-2 px-6 bg-white'>
               <Button className='my-5 w-25 h-10 bg-blue-600'>
                 <span className='text-sm font-sans text-white'>Speaker</span>
               </Button>
@@ -137,7 +137,7 @@ const schedulePage = () => {
                 Mudasiru Rasheed Taiwo
               </h4>
             </div>
-            <div className='h-47 w-full my-2 px-6 bg-white'>
+            <div className='h-53 w-full my-2 px-6 bg-white'>
               <Button className='my-5 w-25 h-10 bg-black'>
                 <span className='text-sm font-sans text-white'>Outside</span>
               </Button>
@@ -155,7 +155,7 @@ const schedulePage = () => {
             </div>
             <div className='h-47 w-full my-2 px-6 bg-white'>
               <Button className='my-5 w-25 h-10 bg-accent-orange'>
-                <span className='text-sm font-sans text-white'>Sponsor</span>
+                <span className='text-sm font-sans text-white'>Speaker</span>
               </Button>
               <h4 className='text-md font-normal'>12:00 PM - 1:05 PM</h4>
               <h2 className='text-2xl font-bold my-5'>Starnet Tech</h2>
@@ -167,7 +167,7 @@ const schedulePage = () => {
               <h4 className='text-md font-normal'>1:05 PM - 1:08 PM</h4>
               <h2 className='text-2xl font-bold my-5'>Closing Remark</h2>
             </div>
-            <div className='h-47 w-full my-2 px-6 bg-white'>
+            <div className='h-40 w-full my-2 px-6 bg-white'>
               <Button className='my-5 w-25 h-10 bg-blue-600'>
                 <span className='text-sm font-sans text-white'>Network</span>
               </Button>
