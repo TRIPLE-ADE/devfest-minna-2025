@@ -1,13 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
-
 
 :root {
   --background: #fff6e0;
   --foreground: #171717;
 
   --accent-yellow: #f9ab00;
-  --accent-orange: #F6B51E;
+  --accent-orange: #f6b51e;
   --accent-green: #34a853;
   --accent-blue: #4285f4;
   --accent-red: #ea4335;
@@ -17,13 +17,26 @@
   --halftone-red: #ff7daf;
   --halftone-green: #5cdb6d;
   --pastel-yellow: #ffe7a5;
-  --pastel-blue: #c3ecf6; 
+  --pastel-blue: #c3ecf6;
   --pastel-red: #f8d8d8;
   --pastel-green: #ccf6c5;
   --greyscale-light: #f0f0f0;
   --greyscale-dark: #1e1e1e;
-;
-;
+}
+
+/* Bungee Shade utility */
+.bungee-shade-regular {
+  font-family: "Bungee Shade", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #000;
+}
+
+/* Muted subtitle style for hero descriptions */
+.subtitle-muted {
+  color: rgba(30, 30, 30, 0.6); /* greyish, not bold */
+  font-weight: 300;
+  max-width: 56rem;
 }
 
 @theme inline {
@@ -50,7 +63,7 @@
   --font-quicksand: var(--font-quicksand);
 
   --animate-cell-ripple: cell-ripple var(--duration, 200ms) ease-out none 1
-  var(--delay, 0ms);
+    var(--delay, 0ms);
 
   @keyframes cell-ripple {
     0% {
@@ -64,7 +77,6 @@
     }
   }
 }
-
 
 /* @media (prefers-color-scheme: dark) {
   :root {
@@ -84,7 +96,6 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
-
 
 /* Adding speaker slider animations that move in opposite directions */
 @layer utilities {
@@ -125,7 +136,8 @@ body {
 
   /* Pulse animation for spotlight carousel */
   @keyframes pulse-slow {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 1;
     }
     50% {
@@ -252,4 +264,3 @@ body {
     opacity: 0;
   }
 }
-

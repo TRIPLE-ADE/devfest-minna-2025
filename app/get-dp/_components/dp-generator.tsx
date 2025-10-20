@@ -30,7 +30,7 @@ const DPGenerator = () => {
   const [isDragOver, setIsDragOver] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [generatedImageBlob, setGeneratedImageBlob] = useState<Blob | null>(
-    null
+    null,
   );
   const [copySuccess, setCopySuccess] = useState(false);
   const [uploadedDPUrl, setUploadedDPUrl] = useState<string>("");
@@ -40,9 +40,9 @@ const DPGenerator = () => {
   const [crop, setCrop] = useState<Crop>({
     unit: "%",
     width: 80,
-    height: 80,
+    height: 60,
     x: 10,
-    y: 10,
+    y: 0,
   });
   const imgRef = useRef<HTMLImageElement>(null);
 
@@ -64,7 +64,7 @@ const DPGenerator = () => {
   }, [crop, showCropInterface, generateCropPreview]);
 
   const handleFileUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -79,9 +79,9 @@ const DPGenerator = () => {
             const defaultCrop = {
               unit: "%" as const,
               width: 80,
-              height: 80,
+              height: 60,
               x: 10,
-              y: 10,
+              y: 0,
             };
             const croppedImageUrl = await getCroppedImg(img, defaultCrop);
             setPhoto(croppedImageUrl);
@@ -97,7 +97,7 @@ const DPGenerator = () => {
 
   const getCroppedImg = (
     image: HTMLImageElement,
-    crop: Crop
+    crop: Crop,
   ): Promise<string> => {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -125,7 +125,7 @@ const DPGenerator = () => {
       0,
       0,
       pixelCrop.width,
-      pixelCrop.height
+      pixelCrop.height,
     );
 
     return new Promise((resolve) => {
@@ -137,7 +137,7 @@ const DPGenerator = () => {
           reader.readAsDataURL(blob);
         },
         "image/jpeg",
-        0.95
+        0.95,
       );
     });
   };
@@ -177,6 +177,17 @@ const DPGenerator = () => {
     if (!photo) {
       setOriginalImage("");
     }
+
+    // Smooth scroll to keep the photo area in view after transition
+    setTimeout(() => {
+      const photoSection = document.querySelector("[data-photo-section]");
+      if (photoSection) {
+        photoSection.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }, 50);
   };
 
   const downloadDP = async () => {
@@ -207,7 +218,7 @@ const DPGenerator = () => {
               };
             }
           });
-        })
+        }),
       );
 
       const rect = previewElement.getBoundingClientRect();
@@ -246,7 +257,7 @@ const DPGenerator = () => {
           URL.revokeObjectURL(url);
         },
         "image/png",
-        0.95
+        0.95,
       );
     } catch (error) {
       console.error("Error downloading DP:", error);
@@ -255,7 +266,7 @@ const DPGenerator = () => {
       } catch (fallbackError) {
         console.error("Fallback method also failed:", fallbackError);
         alert(
-          "Download failed. Please try again or check your internet connection."
+          "Download failed. Please try again or check your internet connection.",
         );
       }
     }
@@ -288,7 +299,7 @@ const DPGenerator = () => {
               };
             }
           });
-        })
+        }),
       );
 
       const rect = previewElement.getBoundingClientRect();
@@ -315,7 +326,7 @@ const DPGenerator = () => {
             resolve(blob);
           },
           "image/png",
-          0.95
+          0.95,
         );
       });
     } catch (error) {
@@ -355,7 +366,7 @@ const DPGenerator = () => {
       } catch (cloudError) {
         console.warn(
           "Failed to save DP to cloud, but local download is still available:",
-          cloudError
+          cloudError,
         );
         // Still allow download even if cloud save fails
         setDpRecord(null);
@@ -380,7 +391,7 @@ const DPGenerator = () => {
     }
     if (!dpRecord) {
       alert(
-        "Cloud sharing is unavailable. Please download your DP and share it manually."
+        "Cloud sharing is unavailable. Please download your DP and share it manually.",
       );
       return;
     }
@@ -404,7 +415,7 @@ View my DP:`;
 
     const dpPageUrl = `${window.location.protocol}//${window.location.host}/dp/${dpRecord.id}`;
     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-      text
+      text,
     )}&url=${encodeURIComponent(dpPageUrl)}`;
     window.open(url, "_blank");
   };
@@ -416,7 +427,7 @@ View my DP:`;
     }
     const dpPageUrl = `${window.location.protocol}//${window.location.host}/dp/${dpRecord.id}`;
     const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-      dpPageUrl
+      dpPageUrl,
     )}`;
     window.open(url, "_blank");
   };
@@ -428,7 +439,7 @@ View my DP:`;
     }
     const dpPageUrl = `${window.location.protocol}//${window.location.host}/dp/${dpRecord.id}`;
     const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-      dpPageUrl
+      dpPageUrl,
     )}`;
     window.open(url, "_blank");
   };
@@ -464,7 +475,7 @@ Create yours: ${window.location.protocol}//${window.location.host}/get-dp`;
           `DevFest-Minna-2025-DP-${name || "User"}.png`,
           {
             type: "image/png",
-          }
+          },
         );
 
         await navigator.share({
@@ -584,7 +595,7 @@ Create yours: ${window.location.protocol}//${window.location.host}/get-dp`;
           URL.revokeObjectURL(url);
         },
         "image/png",
-        0.95
+        0.95,
       );
     } catch (error) {
       console.error("Error in fallback download:", error);
@@ -642,45 +653,45 @@ Create yours: ${window.location.protocol}//${window.location.host}/get-dp`;
   const isReadyForActions = dpGenerated && dpRecord;
 
   return (
-    <div className='min-h-screen bg-background'>
-      <div className='px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8'>
+    <div className="min-h-screen bg-background">
+      <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Hero Section */}
-        <div className='mb-16 space-y-4 text-center'>
-          <h1 className='text-4xl font-bold sm:text-5xl lg:text-6xl text-gray-900'>
+        <div className="mb-16 space-y-4 text-center">
+          <h1 className="text-4xl font-bold sm:text-5xl lg:text-6xl text-gray-900">
             Customize Your DevFest DP
           </h1>
-          <p className='max-w-2xl mx-auto text-lg text-gray-600'>
+          <p className="max-w-2xl mx-auto text-lg text-gray-600">
             Create your personalized DevFest Minna 2025 profile picture and
             spread the word you'll be attending!
           </p>
         </div>
 
         {/* Main Content */}
-        <div className='grid items-start gap-12 lg:grid-cols-2'>
+        <div className="grid items-start gap-12 lg:grid-cols-2">
           {/* Form Section */}
-          <div className='space-y-8'>
+          <div className="space-y-8">
             {/* Name Input */}
-            <div className='space-y-2'>
+            <div className="space-y-2">
               <Label
-                htmlFor='name'
-                className='text-sm font-medium text-gray-900'
+                htmlFor="name"
+                className="text-sm font-medium text-gray-900"
               >
                 Name
               </Label>
               <Input
-                id='name'
-                type='text'
-                placeholder='Enter name or nickname'
+                id="name"
+                type="text"
+                placeholder="Enter name or nickname"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className='w-full'
+                className="w-full"
               />
             </div>
 
             {/* Photo Upload */}
-            <div className='space-y-2' data-photo-section>
-              <Label className='text-sm font-medium text-gray-900'>Photo</Label>
-              <div className='overflow-hidden transition-all duration-500 ease-in-out'>
+            <div className="space-y-2" data-photo-section>
+              <Label className="text-sm font-medium text-gray-900">Photo</Label>
+              <div className="overflow-hidden transition-all duration-500 ease-in-out">
                 {!originalImage ? (
                   <div
                     className={`p-8 transition-colors border-2 border-dashed rounded-lg cursor-pointer ${
@@ -695,28 +706,28 @@ Create yours: ${window.location.protocol}//${window.location.host}/get-dp`;
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                   >
-                    <div className='space-y-4 text-center'>
-                      <div className='w-12 h-12 mx-auto text-gray-400'>
-                        <Upload className='w-full h-full' />
+                    <div className="space-y-4 text-center">
+                      <div className="w-12 h-12 mx-auto text-gray-400">
+                        <Upload className="w-full h-full" />
                       </div>
                       <div>
-                        <p className='text-sm text-gray-500'>
+                        <p className="text-sm text-gray-500">
                           Drag and drop to upload or click to browse
                         </p>
                         <input
-                          id='photo-upload'
-                          type='file'
-                          accept='image/*'
+                          id="photo-upload"
+                          type="file"
+                          accept="image/*"
                           onChange={handleFileUpload}
-                          className='hidden'
+                          className="hidden"
                         />
                       </div>
                     </div>
                   </div>
                 ) : showCropInterface ? (
-                  <div className='space-y-4'>
-                    <div className='p-4 border rounded-lg border-gray-200'>
-                      <div className='w-full'>
+                  <div className="space-y-4">
+                    <div className="p-4 border rounded-lg border-gray-200">
+                      <div className="w-full">
                         <ReactCrop
                           crop={crop}
                           onChange={(_, percentCrop) => setCrop(percentCrop)}
@@ -726,89 +737,89 @@ Create yours: ${window.location.protocol}//${window.location.host}/get-dp`;
                           <img
                             ref={imgRef}
                             src={originalImage}
-                            alt='Crop preview'
-                            className='object-contain w-full h-auto'
+                            alt="Crop preview"
+                            className="object-contain w-full h-auto"
                           />
                         </ReactCrop>
                       </div>
                     </div>
 
                     {cropPreview && (
-                      <div className='space-y-2'>
-                        <Label className='text-sm font-medium text-gray-900'>
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium text-gray-900">
                           Preview
                         </Label>
-                        <div className='p-4 border rounded-lg border-gray-200 bg-gray-50'>
-                          <div className='flex justify-center'>
-                            <div className='w-32 h-32 overflow-hidden border-2 border-blue-500 relative'>
+                        <div className="p-4 border rounded-lg border-gray-200 bg-gray-50">
+                          <div className="flex justify-center">
+                            <div className="w-32 h-32 overflow-hidden border-2 border-blue-500 relative">
                               <Image
                                 src={cropPreview}
-                                alt='Cropped preview'
+                                alt="Cropped preview"
                                 fill
-                                className='object-cover'
+                                className="object-cover"
                               />
                             </div>
                           </div>
-                          <p className='mt-2 text-xs text-center text-gray-500'>
+                          <p className="mt-2 text-xs text-center text-gray-500">
                             This is how your cropped image will look
                           </p>
                         </div>
                       </div>
                     )}
 
-                    <div className='flex gap-2'>
+                    <div className="flex gap-2">
                       <Button
-                        type='button'
-                        variant='outline'
+                        type="button"
+                        variant="outline"
                         onClick={handleCancelCrop}
-                        className='flex-1'
+                        className="flex-1"
                       >
                         Cancel
                       </Button>
                       <Button
-                        type='button'
+                        type="button"
                         onClick={handleSaveCrop}
-                        className='flex-1 bg-gray-900 hover:bg-gray-800 text-white'
+                        className="flex-1 bg-gray-900 hover:bg-gray-800 text-white"
                       >
                         Save Cropped Image
                       </Button>
                     </div>
                   </div>
                 ) : (
-                  <div className='space-y-4'>
-                    <div className='relative h-80 overflow-hidden border rounded-lg border-gray-200'>
+                  <div className="space-y-4">
+                    <div className="relative h-80 overflow-hidden border rounded-lg border-gray-200">
                       {photo && (
                         <Image
                           src={photo}
-                          alt='Uploaded'
+                          alt="Uploaded"
                           fill
-                          className='object-contain'
+                          className="object-contain"
                         />
                       )}
                       {photo && (
                         <button
                           onClick={handleEditImage}
-                          className='absolute p-2 text-white transition-colors rounded-full top-2 right-2 bg-black/50 hover:bg-black/70 z-10'
+                          className="absolute p-2 text-white transition-colors rounded-full top-2 right-2 bg-black/50 hover:bg-black/70 z-10"
                         >
-                          <Edit2 className='w-4 h-4' />
+                          <Edit2 className="w-4 h-4" />
                         </button>
                       )}
                     </div>
                     <Button
-                      variant='outline'
+                      variant="outline"
                       onClick={() =>
                         document.getElementById("photo-upload")?.click()
                       }
-                      className='w-full'
+                      className="w-full"
                     >
                       Change Photo
                     </Button>
                     <input
-                      id='photo-upload'
-                      type='file'
-                      accept='image/*'
+                      id="photo-upload"
+                      type="file"
+                      accept="image/*"
                       onChange={handleFileUpload}
-                      className='hidden'
+                      className="hidden"
                     />
                   </div>
                 )}
@@ -816,15 +827,15 @@ Create yours: ${window.location.protocol}//${window.location.host}/get-dp`;
             </div>
 
             {/* Action Buttons */}
-            <div className='space-y-3'>
+            <div className="space-y-3">
               {/* Step 1: Generate DP Button */}
               {isReadyToGenerate && !dpGenerated && (
                 <Button
                   onClick={handleGenerateDP}
                   disabled={isGenerating}
-                  className='flex items-center w-full gap-2 py-6 bg-accent-orange hover:bg-accent-orange/90 text-greyscale-dark font-bold disabled:opacity-50'
+                  className="flex items-center w-full gap-2 py-6 bg-accent-orange hover:bg-accent-orange/90 text-greyscale-dark font-bold disabled:opacity-50"
                 >
-                  <Share2 className='w-5 h-5' />
+                  <Share2 className="w-5 h-5" />
                   {isGenerating ? "Generating DP..." : "Generate Your DP"}
                 </Button>
               )}
@@ -843,8 +854,8 @@ Create yours: ${window.location.protocol}//${window.location.host}/get-dp`;
                       dpRecord ? "text-green-800" : "text-blue-800"
                     }`}
                   >
-                    <CheckCircle className='w-5 h-5' />
-                    <span className='font-semibold'>
+                    <CheckCircle className="w-5 h-5" />
+                    <span className="font-semibold">
                       DP Generated Successfully!
                     </span>
                   </div>
@@ -860,9 +871,9 @@ Create yours: ${window.location.protocol}//${window.location.host}/get-dp`;
                   {dpRecord && (
                     <a
                       href={`${window.location.origin}/dp/${dpRecord.id}`}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='inline-flex items-center gap-1 text-green-600 hover:text-green-800 text-sm mt-2'
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-green-600 hover:text-green-800 text-sm mt-2"
                     >
                       View your DP page <ExternalLink size={14} />
                     </a>
@@ -876,10 +887,10 @@ Create yours: ${window.location.protocol}//${window.location.host}/get-dp`;
                   {/* Download is always available once DP is generated */}
                   <Button
                     onClick={downloadDP}
-                    variant='outline'
-                    className='flex items-center w-full gap-2 py-6 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white'
+                    variant="outline"
+                    className="flex items-center w-full gap-2 py-6 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
                   >
-                    <Download className='w-5 h-5' />
+                    <Download className="w-5 h-5" />
                     Download DP
                   </Button>
 
@@ -887,18 +898,18 @@ Create yours: ${window.location.protocol}//${window.location.host}/get-dp`;
                   {dpRecord ? (
                     <Button
                       onClick={handleShare}
-                      className='flex items-center w-full gap-2 py-6'
+                      className="flex items-center w-full gap-2 py-6"
                     >
-                      <Share2 className='w-5 h-5' />
+                      <Share2 className="w-5 h-5" />
                       Share Your DP
                     </Button>
                   ) : (
                     <Button
                       disabled
-                      className='flex items-center w-full gap-2 py-6 cursor-not-allowed'
-                      title='Cloud sharing unavailable - download and share manually'
+                      className="flex items-center w-full gap-2 py-6 cursor-not-allowed"
+                      title="Cloud sharing unavailable - download and share manually"
                     >
-                      <Share2 className='w-5 h-5' />
+                      <Share2 className="w-5 h-5" />
                       Cloud Sharing Unavailable
                     </Button>
                   )}
@@ -914,8 +925,8 @@ Create yours: ${window.location.protocol}//${window.location.host}/get-dp`;
                     setUploadedDPUrl("");
                     setGeneratedImageBlob(null);
                   }}
-                  variant='outline'
-                  className='flex items-center w-full gap-2 py-6 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white'
+                  variant="outline"
+                  className="flex items-center w-full gap-2 py-6 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
                 >
                   Generate New DP
                 </Button>
@@ -924,51 +935,51 @@ Create yours: ${window.location.protocol}//${window.location.host}/get-dp`;
           </div>
 
           {/* Preview Section */}
-          <div className='lg:sticky lg:top-8'>
+          <div className="lg:sticky lg:top-8">
             <DPPreview name={name} photo={photo} color={"#ffffff"} />
           </div>
         </div>
 
         {/* Share Modal */}
         {showShareModal && dpRecord && (
-          <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/80'>
-            <div className='bg-white rounded-lg p-6 m-4 max-w-md w-full max-h-[90vh] overflow-y-auto'>
-              <div className='flex justify-between items-center mb-4'>
-                <h3 className='text-lg font-semibold text-gray-900'>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+            <div className="bg-white rounded-lg p-6 m-4 max-w-md w-full max-h-[90vh] overflow-y-auto">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">
                   Share Your DP
                 </h3>
                 <button
                   onClick={() => setShowShareModal(false)}
-                  className='text-gray-500 hover:text-gray-700'
+                  className="text-gray-500 hover:text-gray-700"
                 >
                   ✕
                 </button>
               </div>
 
               {/* Show uploaded DP preview */}
-              <div className='mb-4 text-center'>
-                <div className='relative w-32 h-32 mx-auto mb-2'>
+              <div className="mb-4 text-center">
+                <div className="relative w-32 h-32 mx-auto mb-2">
                   <Image
                     src={uploadedDPUrl}
-                    alt='Your DevFest DP'
+                    alt="Your DevFest DP"
                     fill
-                    className='object-cover rounded-lg border-2 border-blue-500'
+                    className="object-cover rounded-lg border-2 border-blue-500"
                   />
                 </div>
-                <p className='text-sm text-gray-600 mb-2'>
+                <p className="text-sm text-gray-600 mb-2">
                   Your DP is live and ready to share!
                 </p>
                 <a
                   href={`${window.location.origin}/dp/${dpRecord.id}`}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm'
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm"
                 >
                   View your DP page <ExternalLink size={14} />
                 </a>
               </div>
 
-              <p className='text-gray-600 mb-6 text-sm'>
+              <p className="text-gray-600 mb-6 text-sm">
                 Share your DevFest Minna 2025 profile picture and let everyone
                 know you'll be attending!
               </p>
@@ -979,47 +990,47 @@ Create yours: ${window.location.protocol}//${window.location.host}/get-dp`;
                 generatedImageBlob && (
                   <Button
                     onClick={shareViaWebAPI}
-                    className='w-full mb-4 bg-gray-900 hover:bg-gray-800 text-white'
+                    className="w-full mb-4 bg-gray-900 hover:bg-gray-800 text-white"
                   >
-                    <Share2 className='w-4 h-4 mr-2' />
+                    <Share2 className="w-4 h-4 mr-2" />
                     Share Image
                   </Button>
                 )}
 
               {/* Social Media Buttons */}
-              <div className='grid grid-cols-3 gap-3 mb-4'>
+              <div className="grid grid-cols-3 gap-3 mb-4">
                 <Button
                   onClick={shareToTwitter}
-                  variant='outline'
-                  className='flex flex-col items-center p-4 h-auto border-blue-400 text-blue-600 hover:bg-blue-50'
+                  variant="outline"
+                  className="flex flex-col items-center p-4 h-auto border-blue-400 text-blue-600 hover:bg-blue-50"
                 >
-                  <Twitter className='w-6 h-6 mb-1' />
-                  <span className='text-xs'>Twitter</span>
+                  <Twitter className="w-6 h-6 mb-1" />
+                  <span className="text-xs">Twitter</span>
                 </Button>
 
                 <Button
                   onClick={shareToFacebook}
-                  variant='outline'
-                  className='flex flex-col items-center p-4 h-auto border-blue-600 text-blue-800 hover:bg-blue-50'
+                  variant="outline"
+                  className="flex flex-col items-center p-4 h-auto border-blue-600 text-blue-800 hover:bg-blue-50"
                 >
-                  <Facebook className='w-6 h-6 mb-1' />
-                  <span className='text-xs'>Facebook</span>
+                  <Facebook className="w-6 h-6 mb-1" />
+                  <span className="text-xs">Facebook</span>
                 </Button>
 
                 <Button
                   onClick={shareToLinkedIn}
-                  variant='outline'
-                  className='flex flex-col items-center p-4 h-auto border-blue-700 text-blue-900 hover:bg-blue-50'
+                  variant="outline"
+                  className="flex flex-col items-center p-4 h-auto border-blue-700 text-blue-900 hover:bg-blue-50"
                 >
-                  <Linkedin className='w-6 h-6 mb-1' />
-                  <span className='text-xs'>LinkedIn</span>
+                  <Linkedin className="w-6 h-6 mb-1" />
+                  <span className="text-xs">LinkedIn</span>
                 </Button>
               </div>
 
               {/* Copy Link Button */}
               <Button
                 onClick={copyLink}
-                variant='outline'
+                variant="outline"
                 className={`w-full ${
                   copySuccess
                     ? "border-green-500 text-green-600"
@@ -1028,19 +1039,19 @@ Create yours: ${window.location.protocol}//${window.location.host}/get-dp`;
               >
                 {copySuccess ? (
                   <>
-                    <CheckCircle className='w-4 h-4 mr-2' />
+                    <CheckCircle className="w-4 h-4 mr-2" />
                     Link Copied!
                   </>
                 ) : (
                   <>
-                    <Copy className='w-4 h-4 mr-2' />
+                    <Copy className="w-4 h-4 mr-2" />
                     Copy Share Link
                   </>
                 )}
               </Button>
 
-              <div className='mt-4 text-center'>
-                <p className='text-xs text-gray-500'>
+              <div className="mt-4 text-center">
+                <p className="text-xs text-gray-500">
                   Your DP is saved and can be shared with this unique link!
                 </p>
               </div>

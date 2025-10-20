@@ -1,11 +1,11 @@
-import { getDPRecord } from '@/lib/appwrite';
-import { notFound } from 'next/navigation';
-import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
-import { Button } from '@/shared/ui/button';
-import { Metadata } from 'next';
-import ShareButton from './_components/share-button';
+import { getDPRecord } from "@/lib/appwrite";
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/shared/ui/button";
+import { Metadata } from "next";
+import ShareButton from "./_components/share-button";
 
 interface DPPageProps {
   params: {
@@ -13,14 +13,17 @@ interface DPPageProps {
   };
 }
 
-export async function generateMetadata({ params }: DPPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: DPPageProps): Promise<Metadata> {
   try {
     const dpRecord = await getDPRecord(params.id);
-    
+
     if (!dpRecord) {
       return {
-        title: 'DP Not Found | DevFest Minna 2025',
-        description: 'The requested DevFest profile picture could not be found.',
+        title: "DP Not Found | DevFest Minna 2025",
+        description:
+          "The requested DevFest profile picture could not be found.",
       };
     }
 
@@ -38,31 +41,31 @@ export async function generateMetadata({ params }: DPPageProps): Promise<Metadat
             alt: `${dpRecord.name}'s DevFest Minna 2025 DP`,
           },
         ],
-        type: 'website',
+        type: "website",
       },
       twitter: {
-        card: 'summary_large_image',
+        card: "summary_large_image",
         title: `${dpRecord.name}'s DevFest Minna 2025 DP`,
         description: `Check out ${dpRecord.name}'s DevFest profile picture! Join DevFest Minna on November 8th.`,
         images: [dpRecord.imageUrl],
       },
     };
   } catch (error) {
-    console.error('Error generating metadata:', error);
+    console.error("Error generating metadata:", error);
     return {
-      title: 'DevFest Minna 2025 DP',
-      description: 'DevFest Minna 2025 profile picture.',
+      title: "DevFest Minna 2025 DP",
+      description: "DevFest Minna 2025 profile picture.",
     };
   }
 }
 
 export default async function DPPage({ params }: DPPageProps) {
   let dpRecord;
-  
+
   try {
     dpRecord = await getDPRecord(params.id);
   } catch (error) {
-    console.error('Error fetching DP record:', error);
+    console.error("Error fetching DP record:", error);
     notFound();
   }
 
@@ -70,7 +73,7 @@ export default async function DPPage({ params }: DPPageProps) {
     notFound();
   }
 
-  const shareUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dp/${dpRecord.id}`;
+  const shareUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/dp/${dpRecord.id}`;
 
   return (
     <div className="min-h-screen bg-background">
@@ -110,10 +113,11 @@ export default async function DPPage({ params }: DPPageProps) {
               <h2 className="text-2xl md:text-3xl font-bold text-accent-orange mb-6">
                 DevFest Minna 2025 DP
               </h2>
-              
+
               <p className="text-lg text-greyscale-dark/80 mb-8 leading-relaxed">
-                {dpRecord.name} is excited to attend DevFest Minna 2025! Join us on November 8th 
-                at Rasheedat Restaurant for an amazing day of tech talks, workshops, and networking.
+                {dpRecord.name} is excited to attend DevFest Minna 2025! Join us
+                on November 8th at Rasheedat Restaurant for an amazing day of
+                tech talks, workshops, and networking.
               </p>
 
               {/* Event Details */}
@@ -122,20 +126,25 @@ export default async function DPPage({ params }: DPPageProps) {
                   DevFest Minna 2025
                 </h3>
                 <div className="space-y-2 text-greyscale-dark/80">
-                  <p><strong>Date:</strong> November 8th, 2025</p>
-                  <p><strong>Time:</strong> 9:00 AM - 6:00 PM</p>
-                  <p><strong>Venue:</strong> Rasheedat Restaurant, Minna</p>
-                  <p><strong>Registration:</strong> Free for all</p>
+                  <p>
+                    <strong>Date:</strong> November 8th, 2025
+                  </p>
+                  <p>
+                    <strong>Time:</strong> 9:00 AM - 6:00 PM
+                  </p>
+                  <p>
+                    <strong>Venue:</strong> Rasheedat Restaurant, Minna
+                  </p>
+                  <p>
+                    <strong>Registration:</strong> Free for all
+                  </p>
                 </div>
               </div>
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
-                <ShareButton 
-                  name={dpRecord.name}
-                  shareUrl={shareUrl}
-                />
-                
+                <ShareButton name={dpRecord.name} shareUrl={shareUrl} />
+
                 <Link href="/get-dp">
                   <Button
                     variant="outline"
@@ -145,9 +154,12 @@ export default async function DPPage({ params }: DPPageProps) {
                   </Button>
                 </Link>
               </div>
-              
+
               <p className="text-sm text-greyscale-dark/60 mt-4">
-                Created on {dpRecord.$createdAt ? new Date(dpRecord.$createdAt).toLocaleDateString() : 'Unknown date'}
+                Created on{" "}
+                {dpRecord.$createdAt
+                  ? new Date(dpRecord.$createdAt).toLocaleDateString()
+                  : "Unknown date"}
               </p>
             </div>
           </div>
