@@ -12,12 +12,16 @@ export default function DPGalleryPage() {
   const [dps, setDps] = useState<DPRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+   const [offset, setOffset] = useState(0);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const PAGE_SIZE = 24;
 
   useEffect(() => {
     const fetchDPs = async () => {
       try {
-        const recentDPs = await getRecentDPs(24); // Get 24 recent DPs
+        const recentDPs = await getRecentDPs(PAGE_SIZE); // Initial load
         setDps(recentDPs);
+        setOffset(recentDPs.length);
       } catch (err) {
         console.error("Error fetching DPs:", err);
         setError("Failed to load profile pictures. Please try again later.");
@@ -25,9 +29,22 @@ export default function DPGalleryPage() {
         setLoading(false);
       }
     };
-
     fetchDPs();
   }, []);
+
+   const handleLoadMore = async () => {
+    setLoadingMore(true);
+    try {
+      const moreDPs = await getRecentDPs(PAGE_SIZE, offset); // Fetch next page
+      setDps((prev) => [...prev, ...moreDPs]);
+      setOffset((prev) => prev + moreDPs.length);
+    } catch (err) {
+      console.error("Error loading more DPs:", err);
+      setError("Failed to load more profile pictures. Please try again later.");
+    } finally {
+      setLoadingMore(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -168,13 +185,15 @@ export default function DPGalleryPage() {
             </div>
 
             {/* Load More Button (for future implementation) */}
-            {dps.length >= 24 && (
+            {dps.length >= PAGE_SIZE && (
               <div className="text-center mt-12">
                 <Button
                   variant="outline"
                   className="border-greyscale-dark text-greyscale-dark hover:bg-greyscale-dark hover:text-white"
+                  onClick={handleLoadMore}
+                  disabled={loadingMore}
                 >
-                  Load More DPs
+                  {loadingMore ? "Loading..." : "Load More DPs"}
                 </Button>
               </div>
             )}
@@ -203,7 +222,7 @@ export default function DPGalleryPage() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white text-white hover:bg-white hover:text-greyscale-dark"
+                className="border-white text-black hover:bg-white hover:text-greyscale-dark"
               >
                 Learn More About DevFest
               </Button>

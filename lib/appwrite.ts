@@ -108,12 +108,16 @@ export const getDPRecord = async (id: string): Promise<DPRecord | null> => {
 };
 
 // Get recent DPs (using TablesDB API)
-export const getRecentDPs = async (limit: number = 12): Promise<DPRecord[]> => {
+export const getRecentDPs = async (limit: number = 12, offset: number = 0): Promise<DPRecord[]> => {
   try {
     const response = await tablesDB.listRows({
       databaseId: DATABASE_ID,
       tableId: TABLE_ID,
-      queries: [Query.orderDesc("$createdAt"), Query.limit(limit)],
+      queries: [
+        Query.orderDesc("$createdAt"),
+        Query.limit(limit),
+        Query.offset(offset)
+      ],
     });
 
     return response.rows.map((row) => ({

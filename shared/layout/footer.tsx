@@ -40,7 +40,7 @@ export default function Footer() {
               className="bg-white rounded-full hover:bg-[#F9AB00] transition p-4"
               target="_blank"
               rel="noopener noreferrer"
-              href="https://x.com/gdgoc_futminna"
+              href="https://x.com/GDGMinna"
             >
               <Image
                 alt="Twitter / X"
@@ -54,7 +54,7 @@ export default function Footer() {
               className="bg-white rounded-full hover:bg-[#F9AB00] transition p-4"
               target="_blank"
               rel="noopener noreferrer"
-              href="https://www.linkedin.com/company/gdgoc-futminna/"
+              href="https://ng.linkedin.com/company/nuesa-fut-minna-chapter"
             >
               <Image
                 alt="LinkedIn"

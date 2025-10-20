@@ -5,17 +5,20 @@ import { TeamMember } from "./teamData";
 import TeamCard from "./TeamCard";
 import SearchBar from "./SearchBar";
 import "./team.module.css";
+import SectionHeader from "@/shared/section-header";
 
 interface TeamSectionProps {
   title: string;
   members: TeamMember[];
   showSearch?: boolean;
   cardSize?: "large" | "small";
+  subtitle: string;
 }
 
 const TeamSection = ({
   title,
   members,
+  subtitle,
   showSearch = false,
   cardSize = "large",
 }: TeamSectionProps) => {
@@ -39,18 +42,15 @@ const TeamSection = ({
 
   return (
     <section
-      className={`py-16 px-4 ${styles.section}`}
+      className={`pb-16 px-4 ${styles.section}`}
       aria-labelledby={`${title.toLowerCase()}-heading`}
     >
       <div className="container mx-auto max-w-7xl">
         <div className="text-center mb-12">
-          <h2
-            id={`${title.toLowerCase()}-heading`}
-            className="text-3xl md:text-4xl font-bold text-foreground mb-3 bungee-shade-regular"
-          >
-            {title}
-          </h2>
-          <div className="w-16 h-1 bg-primary mx-auto rounded-full"></div>
+          <SectionHeader
+            title={title}
+            subtitle={subtitle}
+          />
         </div>
 
         {showSearch && (
