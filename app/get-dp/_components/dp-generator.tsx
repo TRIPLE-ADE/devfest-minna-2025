@@ -40,9 +40,9 @@ const DPGenerator = () => {
   const [crop, setCrop] = useState<Crop>({
     unit: "%",
     width: 80,
-    height: 80,
+    height: 60,
     x: 10,
-    y: 10,
+    y: 0,
   });
   const imgRef = useRef<HTMLImageElement>(null);
 
@@ -79,9 +79,9 @@ const DPGenerator = () => {
             const defaultCrop = {
               unit: "%" as const,
               width: 80,
-              height: 80,
+              height: 60,
               x: 10,
-              y: 10,
+              y: 0,
             };
             const croppedImageUrl = await getCroppedImg(img, defaultCrop);
             setPhoto(croppedImageUrl);
@@ -177,6 +177,17 @@ const DPGenerator = () => {
     if (!photo) {
       setOriginalImage("");
     }
+
+    // Smooth scroll to keep the photo area in view after transition
+    setTimeout(() => {
+      const photoSection = document.querySelector("[data-photo-section]");
+      if (photoSection) {
+        photoSection.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }, 50);
   };
 
   const downloadDP = async () => {

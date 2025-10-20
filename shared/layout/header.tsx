@@ -25,7 +25,7 @@ export default function Header() {
         </Link>
         {/* Navbar button right */}
         <button
-          className='md:hidden p-2 rounded-md'
+          className='lg:hidden p-2 rounded-md'
           style={{ color: "var(--medium-green)" }}
           onClick={() => setNavOpen(!navOpen)}
           aria-label='Open navigation'

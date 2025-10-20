@@ -29,13 +29,13 @@ const DPPreview = ({
 
   return (
     <div className="w-full max-w-md mx-auto dp-preview font-sans">
-      <div className="relative overflow-hidden aspect-square">
+      <div className="relative aspect-square">
         {/* Template background image */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img 
           src="/assets/dp.webp" 
           alt="Devfest Minna 2025 Template" 
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-fill"
         />
         
         {/* Overlay content */}
@@ -97,7 +97,7 @@ const DPPreview = ({
                 // }}
               >
                 <p 
-                  className={cn("sm:text-2xl text-xl text-wrap leading-none font-semibold text-left", name ? "text-gray-800" : "text-gray-400")}
+                  className={cn("sm:text-2xl text-xl text-wrap capitalize leading-none font-semibold text-left", name ? "text-gray-800" : "text-gray-400")}
                 >
                   {name ? name : "Name"}
                 </p>
