@@ -41,7 +41,7 @@ export default function Slider({
         ...logos.map((logo, index) => ({
           ...logo,
           id: `${logo.id}-duplicate-${i}-${index}`,
-        }))
+        })),
       );
     }
     return duplicatedLogos;
@@ -50,8 +50,8 @@ export default function Slider({
   const singleSetWidth = displayLogos.length * (slideWidth + gap);
 
   return (
-    <div className='py-4 mb-5 slider-container bg-[#ffe7a5] overflow-hidden'>
-      <div className='relative'>
+    <div className="py-4 mb-5 slider-container bg-[#ffe7a5] overflow-hidden">
+      <div className="relative">
         <div
           className={`flex slider-track ${
             direction === "left" ? "slide-left" : "slide-right"
@@ -68,7 +68,7 @@ export default function Slider({
           {displayLogos.map((logo) => (
             <div
               key={logo.id}
-              className='flex-shrink-0'
+              className="flex-shrink-0"
               style={{ width: `${slideWidth}px` }}
             >
               <Image
@@ -76,7 +76,7 @@ export default function Slider({
                 alt={logo.name}
                 width={logo.width}
                 height={logo.height}
-                className='h-auto w-fit mx-auto hover:opacity-100 transition-opacity duration-300 hover:grayscale-0'
+                className="h-auto w-fit mx-auto hover:opacity-100 transition-opacity duration-300 hover:grayscale-0"
               />
             </div>
           ))}
@@ -84,7 +84,7 @@ export default function Slider({
           {displayLogos.map((logo) => (
             <div
               key={`${logo.id}-duplicate`}
-              className='flex-shrink-0'
+              className="flex-shrink-0"
               style={{ width: `${slideWidth}px` }}
             >
               <Image
@@ -92,7 +92,7 @@ export default function Slider({
                 alt={logo.name}
                 width={logo.width}
                 height={logo.height}
-                className='h-auto w-fit mx-auto hover:opacity-100 transition-opacity duration-300 hover:grayscale-0'
+                className="h-auto w-fit mx-auto hover:opacity-100 transition-opacity duration-300 hover:grayscale-0"
               />
             </div>
           ))}

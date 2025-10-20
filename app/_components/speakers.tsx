@@ -3,7 +3,13 @@
 import React, { useState, useEffect, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, ArrowRight, Linkedin, Twitter } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
+  Linkedin,
+  Twitter,
+} from "lucide-react";
 import SectionHeader from "@/shared/section-header";
 
 const Speakers = () => {
@@ -21,7 +27,7 @@ const Speakers = () => {
       image: "/assets/speakers/mudasiru-rasheed-taiwo.webp",
       bio: "Gemma: Inferences and building a MaaS",
       linkedin: "https://www.linkedin.com/in/rasheedtaiwo/",
-      twitter: "https://x.com/taiwrash"
+      twitter: "https://x.com/taiwrash",
     },
     {
       id: 2,
@@ -30,7 +36,7 @@ const Speakers = () => {
       image: "/assets/speakers/temidayo-akintoye.webp",
       bio: "Ethics in AI-driven Testing: who tests the testers?",
       linkedin: "https://www.linkedin.com/in/temidayo-akintoye-b90476110/",
-      twitter: "https://x.com/97th_noir"
+      twitter: "https://x.com/97th_noir",
     },
     {
       id: 3,
@@ -39,7 +45,7 @@ const Speakers = () => {
       image: "/assets/speakers/gabriella-amaefule.webp",
       bio: "Maximizing Your CPU to Scale Your Backend Vertically on Google cloud run",
       linkedin: "https://www.linkedin.com/in/gabriellaamah/",
-      twitter: "https://x.com/Amaefule_Gabbie"
+      twitter: "https://x.com/Amaefule_Gabbie",
     },
     {
       id: 4,
@@ -48,7 +54,7 @@ const Speakers = () => {
       image: "/assets/speakers/daniel-egbe.webp",
       bio: "The New Renaissance: How AI is Democratizing Creativity in Tech",
       linkedin: "https://www.linkedin.com/in/danielegbe/",
-      twitter: "https://x.com/DeethePublisher"
+      twitter: "https://x.com/DeethePublisher",
     },
     {
       id: 5,
@@ -57,16 +63,17 @@ const Speakers = () => {
       image: "/assets/speakers/fauziya-mohammed.webp",
       bio: "Building Better Experiences Through Product Documentation",
       linkedin: "http://www.linkedin.com/in/MohammedFauziya",
-      twitter: "https://x.com/Ziya_mg"
+      twitter: "https://x.com/Ziya_mg",
     },
     {
       id: 6,
       name: "Shehu Ibrahim Muhammad",
-      title: "Head of Management Information System, Abdulkadir Kure University, Minna",
+      title:
+        "Head of Management Information System, Abdulkadir Kure University, Minna",
       image: "/assets/speakers/shehu-ibrahim-muhammad.webp",
       bio: "Escaping the Hustle Trap: Building a Tech Career Without a Computer Science Background",
       linkedin: "",
-      twitter: "https://x.com/Shehu_Hikmah"
+      twitter: "https://x.com/Shehu_Hikmah",
     },
     {
       id: 7,
@@ -75,7 +82,7 @@ const Speakers = () => {
       image: "/assets/speakers/samuel-adeniyi.webp",
       bio: "AI Without Code: Scaling Startups and Empowering Developers Through Intelligent Integrations",
       linkedin: "https://www.linkedin.com/in/samuel-adeniyi-862279149/",
-      twitter: "https://x.com/samdimsx"
+      twitter: "https://x.com/samdimsx",
     },
     {
       id: 8,
@@ -84,7 +91,7 @@ const Speakers = () => {
       image: "/assets/speakers/muiz-aminu.webp",
       bio: "Developing Bidirectional IoT with Flutter and Firebase from Sensor Data to Device Control.",
       linkedin: "https://www.linkedin.com/in/muiz-aminu/",
-      twitter: ""
+      twitter: "",
     },
   ];
 
@@ -106,7 +113,7 @@ const Speakers = () => {
 
   const handleSlideChange = (
     newIndex: number,
-    slideDirection: "next" | "prev"
+    slideDirection: "next" | "prev",
   ) => {
     if (isPending) return;
 
@@ -138,22 +145,22 @@ const Speakers = () => {
 
   return (
     <section>
-      <div className='container mx-auto px-4 lg:px-8 xl:px-12 py-20 md:py-24 relative'>
+      <div className="container mx-auto px-4 lg:px-8 xl:px-12 py-20 md:py-24 relative">
         <SectionHeader
-          title='Speakers'
-          subtitle='Get a glimpse of our amazing speakers who will share their expertise at DevFest Minna 2025'
+          title="Speakers"
+          subtitle="Get a glimpse of our amazing speakers who will share their expertise at DevFest Minna 2025"
         />
         <div
-          className='max-w-7xl mx-auto relative'
+          className="max-w-7xl mx-auto relative"
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
         >
           {/* Featured Speaker Card */}
-          <div className='bg-white rounded-3xl overflow-hidden shadow-2xl relative'>
-            <div className='grid grid-cols-1 lg:grid-cols-2 items-center min-h-[500px]'>
+          <div className="bg-white rounded-3xl overflow-hidden shadow-2xl relative">
+            <div className="grid grid-cols-1 lg:grid-cols-2 items-center min-h-[500px]">
               {/* Speaker Image */}
-              <div className='relative h-[400px] lg:h-[500px] overflow-hidden'>
-                <div className='absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10' />
+              <div className="relative h-[400px] lg:h-[500px] overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10" />
                 <div
                   className={`absolute inset-0 transition-all duration-500 ease-in-out ${
                     isPending
@@ -167,8 +174,8 @@ const Speakers = () => {
                     src={currentSpeaker.image}
                     alt={currentSpeaker.name}
                     fill
-                    className='object-cover transition-transform duration-700 ease-out hover:scale-105'
-                    sizes='(max-width: 768px) 100vw, 50vw'
+                    className="object-cover transition-transform duration-700 ease-out hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
                 {/* Floating accent element */}
@@ -180,7 +187,7 @@ const Speakers = () => {
               </div>
 
               {/* Speaker Info */}
-              <div className='p-8 lg:p-12'>
+              <div className="p-8 lg:p-12">
                 <div
                   key={currentSpeaker.id}
                   className={`transition-all duration-500 ease-in-out ${
@@ -269,8 +276,8 @@ const Speakers = () => {
                     }`}
                   >
                     <Link
-                      href='/speakers'
-                      className='inline-flex w-fit hover:scale-105 items-center h-10 sm:h-12 px-4 sm:px-5 rounded-full gap-2  text-black bg-accent-orange font-semibold hover:gap-3 transition-all'
+                      href="/speakers"
+                      className="inline-flex w-fit hover:scale-105 items-center h-10 sm:h-12 px-4 sm:px-5 rounded-full gap-2  text-black bg-accent-orange font-semibold hover:gap-3 transition-all"
                     >
                       View All Speakers
                       <ArrowRight size={18} />
@@ -287,9 +294,9 @@ const Speakers = () => {
               className={`absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-30 ${
                 isPending ? "opacity-50 cursor-not-allowed" : "opacity-100"
               }`}
-              aria-label='Previous speaker'
+              aria-label="Previous speaker"
             >
-              <ChevronLeft size={24} className='text-greyscale-dark' />
+              <ChevronLeft size={24} className="text-greyscale-dark" />
             </button>
             <button
               onClick={nextSlide}
@@ -297,14 +304,14 @@ const Speakers = () => {
               className={`absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-30 ${
                 isPending ? "opacity-50 cursor-not-allowed" : "opacity-100"
               }`}
-              aria-label='Next speaker'
+              aria-label="Next speaker"
             >
-              <ChevronRight size={24} className='text-greyscale-dark' />
+              <ChevronRight size={24} className="text-greyscale-dark" />
             </button>
           </div>
 
           {/* Progress Indicators */}
-          <div className='flex justify-center mt-6 gap-2'>
+          <div className="flex justify-center mt-6 gap-2">
             {speakers.map((_, index) => (
               <button
                 key={index}
@@ -324,13 +331,13 @@ const Speakers = () => {
         </div>
 
         {/* Background decorative elements */}
-        <div className='absolute top-20 left-10 w-20 h-20 bg-halftone-yellow/30 rounded-full animate-pulse-slow' />
+        <div className="absolute top-20 left-10 w-20 h-20 bg-halftone-yellow/30 rounded-full animate-pulse-slow" />
         <div
-          className='absolute bottom-20 right-10 w-16 h-16 bg-halftone-blue/30 rounded-full animate-pulse-slow'
+          className="absolute bottom-20 right-10 w-16 h-16 bg-halftone-blue/30 rounded-full animate-pulse-slow"
           style={{ animationDelay: "1s" }}
         />
         <div
-          className='absolute top-1/2 left-5 w-12 h-12 bg-halftone-red/30 rounded-full animate-pulse-slow'
+          className="absolute top-1/2 left-5 w-12 h-12 bg-halftone-red/30 rounded-full animate-pulse-slow"
           style={{ animationDelay: "2s" }}
         />
       </div>
