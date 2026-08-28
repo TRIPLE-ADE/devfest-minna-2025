@@ -201,4 +201,16 @@ export const volunteers: TeamMember[] = [
       twitter: "https://twitter.com",
     },
   },
+  {
+    id: "vol-10",
+    name: "Abdulrasheed Abdulsalam",
+    role: "Software Developer",
+    organization: "GDG Minna",
+    bio: "A passionate software developer with a knack for building modern, responsive web applications. I am driven by curiosity and constantly explore new technologies to enhance user experiences. Currently contributing my skills to the GDG Minna community.",
+    imgUrl:
+      "https://build-with-ai-2025-puce.vercel.app/_next/image?url=%2Fteam-images%2FAbdulsalam.jpg&w=384&q=75",
+    socials: {
+      github: "https://github.com/TRIPLE-ADE",
+    },
+  },
 ];
